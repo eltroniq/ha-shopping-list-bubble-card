@@ -1,4 +1,4 @@
-> **AI disclosure:** Parts of this project, including documentation and implementation, were created with assistance from AI tools and reviewed/maintained by the repository owner.
+> **AI disclosure:** AI tools assisted with parts of the implementation and documentation. The repository maintainer is responsible for reviewing and maintaining the project.
 
 # Shopping List Bubble Card
 
