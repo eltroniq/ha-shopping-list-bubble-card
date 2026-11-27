@@ -1,0 +1,39 @@
+name: Update HACS bundle
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - shopping-list-card.js
+      - dist/**
+      - .github/workflows/update-bundle.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm install
+      - run: npm run check
+      - run: npm run build
+      - name: Publish root bundle
+        run: |
+          cp dist/shopping-list-card.js shopping-list-card.js
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add shopping-list-card.js
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: update HACS bundle [skip ci]"
+            git push origin main
+          fi
