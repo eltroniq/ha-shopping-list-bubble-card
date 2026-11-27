@@ -1,0 +1,19 @@
+{
+  "name": "ha-shopping-list-bubble-card",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A Home Assistant shopping-list card designed for Bubble Card popups.",
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite build --watch",
+    "check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "lit": "^3.2.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2",
+    "vite": "^6.0.5"
+  }
+}
