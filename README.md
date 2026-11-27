@@ -1,3 +1,5 @@
+> **AI disclosure:** Parts of this project, including documentation and implementation, were created with assistance from AI tools and reviewed/maintained by the repository owner.
+
 # Shopping List Bubble Card
 
 A small Home Assistant Lovelace custom card intended to be placed as a **normal card inside a Bubble Card popup**. It uses a configurable Home Assistant `todo` entity (default: `todo.einkaufsliste`) and Home Assistant theme variables so it sits comfortably alongside Bubble Card.
@@ -34,11 +36,11 @@ npm run check
 npm run build
 ```
 
-Copy `dist/shopping-list-card.js` to your Home Assistant `www` directory, for example:
+Copy the repository-root `shopping-list-card.js` bundle to your Home Assistant `www` directory, for example:
 
 ```sh
 mkdir -p /config/www
-cp dist/shopping-list-card.js /config/www/shopping-list-card.js
+cp shopping-list-card.js /config/www/shopping-list-card.js
 ```
 
 In **Settings → Dashboards → Resources**, add `/local/shopping-list-card.js` as a JavaScript module. Then add the card inside your Bubble Card popup using the dashboard card picker, or YAML:
@@ -63,3 +65,14 @@ npm run dev
 ```
 
 The project uses Lit and Vite, emits a single ES module, and keeps styles within the card's shadow DOM. CSS uses Home Assistant and Bubble Card theme variables with standard HA theme fallbacks. It does not create or control a popup; popup layout and configuration belong to the dashboard.
+
+
+## HACS (custom repository)
+
+The repository is public and can be added in HACS as a custom repository:
+
+1. Open **HACS → Integrations** (or the HACS menu's custom repositories dialog, depending on your HACS version).
+2. Add `eltroniq/ha-shopping-list-bubble-card` as a **Dashboard** repository.
+3. Install the card and refresh the browser. If HACS does not automatically register the resource, add `/hacsfiles/ha-shopping-list-bubble-card/shopping-list-card.js` as a JavaScript module resource.
+
+The `main` branch bundle is rebuilt automatically after source changes. Tagged releases publish the built JavaScript as a release asset.
