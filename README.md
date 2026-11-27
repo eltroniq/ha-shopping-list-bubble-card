@@ -74,8 +74,8 @@ The project uses Lit and Vite, emits a single ES module, and keeps styles within
 
 The repository is public and can be added in HACS as a custom repository:
 
-1. Open **HACS → Integrations** (or the HACS menu's custom repositories dialog, depending on your HACS version).
-2. Add `eltroniq/ha-shopping-list-bubble-card` as a **Dashboard** repository.
+1. Open **HACS**, open the top-right menu and select **Custom repositories**.
+2. Add `https://github.com/eltroniq/ha-shopping-list-bubble-card` and choose the **Dashboard** category.
 3. Install the card and refresh the browser. If HACS does not automatically register the resource, add `/hacsfiles/ha-shopping-list-bubble-card/shopping-list-card.js` as a JavaScript module resource.
 
 The `main` branch bundle is rebuilt automatically after source changes. Tagged releases publish the built JavaScript as a release asset.
