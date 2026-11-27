@@ -59,6 +59,9 @@ Automatic close is opt-in. When enabled, after a successful write the card calls
 
 ## Development
 
+Node.js 20 or newer is recommended for local builds and CI.
+
+
 ```sh
 npm install
 npm run dev
