@@ -84,7 +84,7 @@ export class HaShoppingListBubbleCard extends LitElement {
   }
 
   private async _loadItems(): Promise<void> {
-    if (!this.hass || !this._config || this._loading) return;
+    if (!this.hass || !this._config) return;
     try {
       const response = await this.hass.callWS({
         type: 'call_service', domain: 'todo', service: 'get_items',
@@ -150,6 +150,7 @@ export class HaShoppingListBubbleCard extends LitElement {
     if (!summary || !this._config || this._loading) return;
     this._loading = true;
     this._showFeedback('');
+    const updating = Boolean(this._selectedUid);
     try {
       if (this._selectedUid) {
         await this._callService('update_item', {
@@ -168,7 +169,7 @@ export class HaShoppingListBubbleCard extends LitElement {
       }
       await this._loadItems();
       this._resetForm();
-      this._showFeedback(this._selectedUid ? 'Eintrag aktualisiert.' : 'Eintrag hinzugefügt.');
+      this._showFeedback(updating ? 'Eintrag aktualisiert.' : 'Eintrag hinzugefügt.');
       this._tryClosePopup();
     } catch (error) {
       this._showFeedback(`Aktion fehlgeschlagen: ${this._errorMessage(error)}`, true);
