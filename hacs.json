@@ -2,5 +2,6 @@
   "name": "Hestia – Todo Entry Editor for Shopping Lists",
   "filename": "hestia-todo-entry-editor.js",
   "render_readme": true,
+  "hide_default_branch": true,
   "homeassistant": "2024.6.0"
 }
