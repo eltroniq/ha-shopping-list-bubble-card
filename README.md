@@ -159,7 +159,7 @@ For watch-mode builds:
 npm run dev
 ```
 
-The production bundle is generated in `dist/` only during a release build; generated files are not committed to the default branch. The regular CI workflow runs the TypeScript check, while the official `hacs/action` validates the repository as a Dashboard plugin on pushes, pull requests, and a daily schedule. Version tags (`v*`) build the card and attach `hestia-todo-entry-editor.js` and its source map to the corresponding GitHub release. The release workflow can also be run manually to publish or repair the assets for an existing tag. HACS installs the JavaScript file from the latest published release.
+The production bundle is generated only during a release build. The release workflow attaches `hestia-todo-entry-editor.js` and its source map to the corresponding GitHub release, then mirrors the JavaScript bundle to `dist/` on the default branch. HACS requires a JavaScript file in the repository structure when the custom repository is first added; keeping the bundle in `dist/` satisfies that check while `hide_default_branch` keeps the branch unavailable as a user-selectable version. The regular CI workflow runs the TypeScript check, and the official `hacs/action` validates the repository as a Dashboard plugin on pushes, pull requests, and a daily schedule. The release workflow can also be run manually to publish or repair the assets for an existing tag.
 
 ## Project scope and contributions
 
