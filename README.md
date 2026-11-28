@@ -95,7 +95,7 @@ The quantity and unit are stored in the todo item's `summary` so they remain vis
 | Kartoffeln · 2.5 kg | `Kartoffeln (2,5kg)` |
 | Milch · 1 L | `Milch (1L)` |
 
-A quantity of one `Stück` is omitted from the summary. Decimal quantities are stored with a comma; existing summaries with either a comma or a dot are understood.
+A quantity of one `Stück` is omitted from the summary. Decimal quantities are stored with a comma; existing summaries with either a comma or a dot are understood. The parser also accepts optional spaces (for example `Milch (1 L)`), common unit names/abbreviations (`Stk.`, `Liter`, `ml`, `Kilogramm`, `g`), and trailing quantities without parentheses (for example `Milch 1L`). Product suggestions search both the full summary and the parsed product name, without case or accent sensitivity.
 
 ## Troubleshooting
 
