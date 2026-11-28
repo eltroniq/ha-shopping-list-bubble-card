@@ -45,21 +45,21 @@ jobs:
           esac
 
           if gh release view "$TAG" >/dev/null 2>&1; then
-            gh release upload "$TAG" dist/hestia-todo-entry-editor.js dist/hestia-todo-entry-editor.js.map --clobber
+            gh release upload "$TAG" dist/ha-hestia-todo-entry-editor.js dist/ha-hestia-todo-entry-editor.js.map --clobber
           else
-            gh release create "$TAG" dist/hestia-todo-entry-editor.js dist/hestia-todo-entry-editor.js.map --title "$TAG" --generate-notes
+            gh release create "$TAG" dist/ha-hestia-todo-entry-editor.js dist/ha-hestia-todo-entry-editor.js.map --title "$TAG" --generate-notes
           fi
 
       # HACS validates the default branch when a repository is added.
       # Keep the latest release bundle in dist/, but only refresh it on releases.
       - name: Update HACS bundle on the default branch
         run: |
-          cp dist/hestia-todo-entry-editor.js "$RUNNER_TEMP/hestia-todo-entry-editor.js"
+          cp dist/ha-hestia-todo-entry-editor.js "$RUNNER_TEMP/ha-hestia-todo-entry-editor.js"
           git fetch origin main
           git checkout -B main origin/main
           mkdir -p dist
-          cp "$RUNNER_TEMP/hestia-todo-entry-editor.js" dist/hestia-todo-entry-editor.js
-          git add -f dist/hestia-todo-entry-editor.js
+          cp "$RUNNER_TEMP/ha-hestia-todo-entry-editor.js" dist/ha-hestia-todo-entry-editor.js
+          git add -f dist/ha-hestia-todo-entry-editor.js
           if git diff --cached --quiet; then
             echo "HACS bundle is already up to date."
           else
