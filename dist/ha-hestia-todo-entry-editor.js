@@ -957,4 +957,4 @@ window.customCards.some((s) => s.type === "hestia-todo-entry-editor") || window.
 export {
   _ as HestiaTodoEntryEditor
 };
-//# sourceMappingURL=hestia-todo-entry-editor.js.map
+//# sourceMappingURL=ha-hestia-todo-entry-editor.js.map
