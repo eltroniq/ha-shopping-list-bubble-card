@@ -56,10 +56,26 @@ The card can be added through the dashboard card picker or configured directly i
 
 #### Card configuration
 
-This is the complete configuration for the custom card itself:
+Minimal configuration:
 
-**[Open the card configuration example](https://github.com/eltroniq/ha-hestia-todo-entry-editor/blob/main/docs/examples/card-configuration.yaml)**
+```yaml
+type: custom:hestia-todo-entry-editor
+```
 
+The card defaults to `todo.einkaufsliste`. To select another todo entity or enable popup closing, use the full configuration:
+
+**[Open the full card configuration YAML](https://github.com/eltroniq/ha-hestia-todo-entry-editor/blob/main/docs/examples/card-configuration.yaml)**
+
+<details>
+<summary>Show full card configuration</summary>
+
+```yaml
+type: custom:hestia-todo-entry-editor
+entity: todo.einkaufsliste
+close_popup_on_success: true
+```
+
+</details>
 
 | Option | Type | Default | Description |
 | --- | --- | --- | --- |
