@@ -2,8 +2,8 @@
 
 # Hestia – Todo Entry Editor for Shopping Lists
 
-[![CI](https://github.com/eltroniq/ha-shopping-list-bubble-card/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/eltroniq/ha-shopping-list-bubble-card/actions/workflows/ci.yml)
-[![Latest release](https://img.shields.io/github/v/release/eltroniq/hestia-todo-entry-editor?display_name=tag)](https://github.com/eltroniq/ha-shopping-list-bubble-card/releases)
+[![CI](https://github.com/eltroniq/ha-hestia-todo-entry-editor/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/eltroniq/ha-hestia-todo-entry-editor/actions/workflows/ci.yml)
+[![Latest release](https://img.shields.io/github/v/release/eltroniq/ha-hestia-todo-entry-editor?display_name=tag)](https://github.com/eltroniq/ha-hestia-todo-entry-editor/releases)
 
 A simple Home Assistant UI for adding and updating todo list entries, making it easy to use any todo list as a shopping list. It fits naturally inside a [Bubble Card](https://github.com/Clooos/Bubble-Card) popup, but can also be used as a standalone dashboard card.
 
@@ -30,7 +30,7 @@ A simple Home Assistant UI for adding and updating todo list entries, making it 
 
 1. Open **HACS** in Home Assistant.
 2. Open the menu in the top-right corner and select **Custom repositories**.
-3. Add `https://github.com/eltroniq/ha-shopping-list-bubble-card`.
+3. Add `https://github.com/eltroniq/ha-hestia-todo-entry-editor`.
 4. Select **Dashboard** as the repository category and add the repository.
 5. Find **Hestia – Todo Entry Editor for Shopping Lists** in HACS and install it.
 6. Reload the browser. HACS normally registers the dashboard resource automatically.
@@ -39,7 +39,7 @@ If you manage dashboard resources manually (for example, with YAML mode), add th
 
 ### Manual installation
 
-1. Download `hestia-todo-entry-editor.js` from the [latest GitHub release](https://github.com/eltroniq/ha-shopping-list-bubble-card/releases).
+1. Download `hestia-todo-entry-editor.js` from the [latest GitHub release](https://github.com/eltroniq/ha-hestia-todo-entry-editor/releases).
 2. Copy it into your Home Assistant `www` directory, for example:
 
    ```sh
@@ -159,7 +159,7 @@ For watch-mode builds:
 npm run dev
 ```
 
-The production bundle is generated at `dist/hestia-todo-entry-editor.js`. GitHub Actions checks source changes and keeps the repository-root bundle up to date. Version tags (`v*`) build the card and attach `hestia-todo-entry-editor.js` to the corresponding GitHub release. The release workflow can also be run manually to publish or repair the asset for an existing tag.
+The production bundle is generated at `dist/hestia-todo-entry-editor.js`. GitHub Actions checks source changes and verifies that the card builds successfully. Version tags (`v*`) build the card and attach `hestia-todo-entry-editor.js` to the corresponding GitHub release. The release workflow can also be run manually to publish or repair the asset for an existing tag.
 
 ## Project scope and contributions
 
