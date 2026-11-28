@@ -420,7 +420,7 @@ window.customCards = window.customCards || [];
 if (!window.customCards.some((card) => card.type === 'hestia-todo-entry-editor')) {
   window.customCards.push({
     type: 'hestia-todo-entry-editor',
-    name: 'Hestia – Todo Entry Editor',
+    name: 'Hestia – Todo Entry Editor for Shopping Lists',
     description: 'A simple Home Assistant UI for adding and updating todo list entries, making it easy to use any todo list as a shopping list.',
     preview: true,
   });
