@@ -45,10 +45,10 @@ const ft = (i) => new ct(typeof i == "string" ? i : i + "", void 0, F), lt = (i,
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const { is: mt, defineProperty: $t, getOwnPropertyDescriptor: bt, getOwnPropertyNames: yt, getOwnPropertySymbols: vt, getPrototypeOf: At } = Object, I = globalThis, X = I.trustedTypes, wt = X ? X.emptyScript : "", xt = I.reactiveElementPolyfillSupport, C = (i, t) => i, L = { toAttribute(i, t) {
+const { is: mt, defineProperty: $t, getOwnPropertyDescriptor: bt, getOwnPropertyNames: yt, getOwnPropertySymbols: vt, getPrototypeOf: wt } = Object, I = globalThis, X = I.trustedTypes, At = X ? X.emptyScript : "", xt = I.reactiveElementPolyfillSupport, C = (i, t) => i, L = { toAttribute(i, t) {
   switch (t) {
     case Boolean:
-      i = i ? wt : null;
+      i = i ? At : null;
       break;
     case Object:
     case Array:
@@ -75,7 +75,7 @@ const { is: mt, defineProperty: $t, getOwnPropertyDescriptor: bt, getOwnProperty
   return e;
 } }, q = (i, t) => !mt(i, t), G = { attribute: !0, type: String, converter: L, reflect: !1, useDefault: !1, hasChanged: q };
 Symbol.metadata ??= Symbol("metadata"), I.litPropertyMetadata ??= /* @__PURE__ */ new WeakMap();
-let A = class extends HTMLElement {
+let w = class extends HTMLElement {
   static addInitializer(t) {
     this._$Ei(), (this.l ??= []).push(t);
   }
@@ -104,7 +104,7 @@ let A = class extends HTMLElement {
   }
   static _$Ei() {
     if (this.hasOwnProperty(C("elementProperties"))) return;
-    const t = At(this);
+    const t = wt(this);
     t.finalize(), t.l !== void 0 && (this.l = [...t.l]), this.elementProperties = new Map(t.elementProperties);
   }
   static finalize() {
@@ -256,7 +256,7 @@ let A = class extends HTMLElement {
   firstUpdated(t) {
   }
 };
-A.elementStyles = [], A.shadowRootOptions = { mode: "open" }, A[C("elementProperties")] = /* @__PURE__ */ new Map(), A[C("finalized")] = /* @__PURE__ */ new Map(), xt?.({ ReactiveElement: A }), (I.reactiveElementVersions ??= []).push("2.1.2");
+w.elementStyles = [], w.shadowRootOptions = { mode: "open" }, w[C("elementProperties")] = /* @__PURE__ */ new Map(), w[C("finalized")] = /* @__PURE__ */ new Map(), xt?.({ ReactiveElement: w }), (I.reactiveElementVersions ??= []).push("2.1.2");
 /**
  * @license
  * Copyright 2017 Google LLC
@@ -264,7 +264,7 @@ A.elementStyles = [], A.shadowRootOptions = { mode: "open" }, A[C("elementProper
  */
 const W = globalThis, Y = (i) => i, z = W.trustedTypes, tt = z ? z.createPolicy("lit-html", { createHTML: (i) => i }) : void 0, ht = "$lit$", $ = `lit$${Math.random().toFixed(9).slice(2)}$`, dt = "?" + $, St = `<${dt}>`, v = document, P = () => v.createComment(""), U = (i) => i === null || typeof i != "object" && typeof i != "function", V = Array.isArray, Et = (i) => V(i) || typeof i?.[Symbol.iterator] == "function", j = `[ 	
 \f\r]`, k = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, et = /-->/g, st = />/g, b = RegExp(`>|${j}(?:([^\\s"'>=/]+)(${j}*=${j}*(?:[^ 	
-\f\r"'\`<>=]|("|')|))|$)`, "g"), it = /'/g, rt = /"/g, ut = /^(?:script|style|textarea|title)$/i, kt = (i) => (t, ...e) => ({ _$litType$: i, strings: t, values: e }), w = kt(1), S = Symbol.for("lit-noChange"), h = Symbol.for("lit-nothing"), ot = /* @__PURE__ */ new WeakMap(), y = v.createTreeWalker(v, 129);
+\f\r"'\`<>=]|("|')|))|$)`, "g"), it = /'/g, rt = /"/g, ut = /^(?:script|style|textarea|title)$/i, kt = (i) => (t, ...e) => ({ _$litType$: i, strings: t, values: e }), A = kt(1), S = Symbol.for("lit-noChange"), h = Symbol.for("lit-nothing"), ot = /* @__PURE__ */ new WeakMap(), y = v.createTreeWalker(v, 129);
 function pt(i, t) {
   if (!V(i) || !i.hasOwnProperty("raw")) throw Error("invalid template strings array");
   return tt !== void 0 ? tt.createHTML(t) : t;
@@ -493,7 +493,7 @@ const Ht = (i, t, e) => {
  * SPDX-License-Identifier: BSD-3-Clause
  */
 const Z = globalThis;
-class x extends A {
+class x extends w {
   constructor() {
     super(...arguments), this.renderOptions = { host: this }, this._$Do = void 0;
   }
@@ -636,6 +636,9 @@ let _ = class extends x {
   getCardSize() {
     return 4;
   }
+  updated(i) {
+    i.has("hass") && this._loadItems();
+  }
   connectedCallback() {
     super.connectedCallback(), this._refreshTimer = window.setInterval(() => void this._loadItems(), 3e4);
   }
@@ -655,8 +658,8 @@ let _ = class extends x {
           service: "get_items",
           service_data: { entity_id: this._config.entity },
           return_response: !0
-        }), t = i?.[this._config.entity];
-        t && Array.isArray(t.items) ? this._items = t.items : Array.isArray(i?.items) && (this._items = i.items);
+        }), e = (i?.[this._config.entity] ?? i?.response?.[this._config.entity])?.items ?? i?.items ?? i?.response?.items;
+        Array.isArray(e) ? this._items = e : this._showFeedback("Die Einkaufsliste lieferte keine Einträge zurück.", !0);
       } catch (i) {
         this._showFeedback(`Einkaufsliste konnte nicht geladen werden: ${this._errorMessage(i)}`, !0);
       }
@@ -723,7 +726,7 @@ let _ = class extends x {
   render() {
     if (!this._config) return h;
     const i = this._matches, t = this._selectedUid ? "Aktualisieren" : "Hinzufügen";
-    return w`
+    return A`
       <ha-card>
         <div class="content">
           <div class="search-wrap">
@@ -739,12 +742,12 @@ let _ = class extends x {
               @keydown=${(e) => {
       e.key === "Enter" && this._name.trim() && (e.preventDefault(), this.shadowRoot?.querySelector(".submit")?.click());
     }} />
-            ${this._focused && this._name.trim() ? w`
+            ${this._focused && this._name.trim() ? A`
               <div class="suggestions" role="listbox">
                 <button class="suggestion add-suggestion" role="option" @mousedown=${(e) => e.preventDefault()} @click=${this._startNew}>
                   „${this._name.trim()}“ hinzufügen
                 </button>
-                ${i.map((e) => w`
+                ${i.map((e) => A`
                   <button class="suggestion" role="option" @mousedown=${(s) => s.preventDefault()} @click=${() => this._selectExisting(e)}>
                     <span>${e.summary}</span><small>${e.status === "completed" ? "Erledigt" : "Offen"}</small>
                   </button>
@@ -766,7 +769,7 @@ let _ = class extends x {
               @change=${(e) => {
       this._unit = e.currentTarget.value;
     }}>
-              ${jt.map((e) => w`<option value=${e}>${e}</option>`)}
+              ${jt.map((e) => A`<option value=${e}>${e}</option>`)}
             </select>
           </div>
 
@@ -780,7 +783,7 @@ let _ = class extends x {
           <button class="submit" ?disabled=${this._loading || !this._name.trim()} @click=${this._submit}>
             ${this._loading ? "Wird gespeichert…" : t}
           </button>
-          ${this._feedback ? w`<div class="feedback ${this._feedbackError ? "error" : "success"}" role="status">${this._feedback}</div>` : h}
+          ${this._feedback ? A`<div class="feedback ${this._feedbackError ? "error" : "success"}" role="status">${this._feedback}</div>` : h}
         </div>
       </ha-card>
     `;
@@ -888,7 +891,7 @@ let O = class extends x {
     this.dispatchEvent(new CustomEvent("config-changed", { detail: { config: this._config }, bubbles: !0, composed: !0 }));
   }
   render() {
-    return w`<div class="editor">
+    return A`<div class="editor">
       <label>Todo-Liste
         <ha-entity-picker .hass=${this.hass} .value=${this._config.entity ?? ""} .includeDomains=${["todo"]}
           @value-changed=${this._entityChanged}></ha-entity-picker>
