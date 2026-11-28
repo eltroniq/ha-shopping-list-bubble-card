@@ -582,10 +582,10 @@ const jt = ["Stück", "L", "mL", "kg", "g"], Bt = {
   g: "g"
 };
 function R(i) {
-  return i.normalize("NFD").replace(/[\\u0300-\\u036f]/g, "").toLocaleLowerCase().trim();
+  return i.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase().trim();
 }
 function Ft(i) {
-  const t = R(i).replace(/[\\s._-]/g, "");
+  const t = R(i).replace(/[\s._-]/g, "");
   if (t === "x" || t.includes("stuck") || t.includes("stk") || t.includes("piece")) return "Stück";
   if (t === "ml" || t.includes("milliliter") || t.includes("millilitre")) return "mL";
   if (t === "l" || t.includes("liter") || t.includes("litre")) return "L";
@@ -593,7 +593,7 @@ function Ft(i) {
   if (t === "g" || t.includes("gram")) return "g";
 }
 function nt(i) {
-  const t = i.trim().match(/^(\\d+(?:[.,]\\d+)?)/);
+  const t = i.trim().match(/^(\d+(?:[.,]\d+)?)/);
   if (!t) return;
   const e = Number(t[1].replace(",", ".")), s = Ft(i.slice(t[0].length));
   if (!(!Number.isFinite(e) || e <= 0 || !s))
@@ -608,7 +608,7 @@ function at(i) {
     if (r)
       return { name: t.slice(0, e).trim(), ...r };
   }
-  const s = t.match(/^(.*\\S)\\s+(\\d+(?:[.,]\\d+)?)\\s*([^\\s]+)$/);
+  const s = t.match(/^(.*\S)\s+(\d+(?:[.,]\d+)?)\s*([^\s]+)$/);
   if (s) {
     const r = nt(s[2] + s[3]);
     if (r) return { name: s[1].trim(), ...r };
