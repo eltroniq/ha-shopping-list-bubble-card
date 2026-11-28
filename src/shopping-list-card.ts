@@ -1,4 +1,4 @@
-import { LitElement, css, html, nothing } from 'lit';
+import { LitElement, css, html, nothing, type PropertyValues } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 
 const UNITS = ['Stück', 'L', 'mL', 'kg', 'g'] as const;
@@ -102,6 +102,13 @@ export class HaShoppingListBubbleCard extends LitElement {
 
   public getCardSize(): number { return 4; }
 
+  protected updated(changedProperties: PropertyValues<this>): void {
+    // Home Assistant assigns hass after setConfig(); load the list as soon as both exist.
+    if (changedProperties.has('hass') || changedProperties.has('_config')) {
+      void this._loadItems();
+    }
+  }
+
   public connectedCallback(): void {
     super.connectedCallback();
     this._refreshTimer = window.setInterval(() => void this._loadItems(), 30_000);
@@ -124,9 +131,13 @@ export class HaShoppingListBubbleCard extends LitElement {
         type: 'call_service', domain: 'todo', service: 'get_items',
         service_data: { entity_id: this._config.entity }, return_response: true,
       });
-      const entityResult = response?.[this._config.entity];
-      if (entityResult && Array.isArray(entityResult.items)) this._items = entityResult.items;
-      else if (Array.isArray(response?.items)) this._items = response.items;
+      const entityResult = response?.[this._config.entity]
+        ?? response?.response?.[this._config.entity];
+      const items = entityResult?.items
+        ?? response?.items
+        ?? response?.response?.items;
+      if (Array.isArray(items)) this._items = items;
+      else this._showFeedback('Die Einkaufsliste lieferte keine Einträge zurück.', true);
     } catch (error) {
       this._showFeedback(`Einkaufsliste konnte nicht geladen werden: ${this._errorMessage(error)}`, true);
     }
