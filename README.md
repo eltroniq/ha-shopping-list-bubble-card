@@ -58,15 +58,8 @@ The card can be added through the dashboard card picker or configured directly i
 
 This is the complete configuration for the custom card itself:
 
-**[Open the card configuration example](https://github.com/eltroniq/ha-hestia-todo-entry-editor/blob/29a7b7e5b9093f128163ef6882fcf6304c7ff54d/docs/examples/card-configuration.yaml)**
+**[Open the card configuration example](https://github.com/eltroniq/ha-hestia-todo-entry-editor/blob/main/docs/examples/card-configuration.yaml)**
 
-Preview:
-
-```yaml
-type: custom:hestia-todo-entry-editor
-entity: todo.einkaufsliste
-close_popup_on_success: true
-```
 
 | Option | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -79,39 +72,8 @@ The visual editor lets you choose a todo entity and toggle popup closing. The en
 
 The following example shows the card in context: a section heading with the todo entity as a badge, a Bubble Card sub-button to open the popup, the native Home Assistant todo list, and the popup containing this card.
 
-**[Open the complete dashboard YAML](https://github.com/eltroniq/ha-hestia-todo-entry-editor/blob/adf3317c044e5936458a64ba4f5d9b3fba684f18/docs/examples/shopping-list-popup.yaml)**
+**[Open the complete dashboard YAML](https://github.com/eltroniq/ha-hestia-todo-entry-editor/blob/main/docs/examples/shopping-list-popup.yaml)**
 
-Preview:
-
-```yaml
-views:
-  - type: sections
-    sections:
-      - type: grid
-        cards:
-          - type: heading
-            icon: mdi:cart-heart
-            heading_style: title
-            heading: Einkaufsliste
-            badges:
-              - type: entity
-                show_state: true
-                show_icon: true
-                entity: todo.einkaufsliste
-                name:
-                  - type: device
-                  - type: entity
-          - type: custom:bubble-card
-            card_type: sub-buttons
-            # ... opens the popup below
-          - type: todo-list
-            entity: todo.einkaufsliste
-            # ... native Home Assistant todo list
-          - type: custom:bubble-card
-            card_type: pop-up
-            hash: '#einkaufsliste-add'
-            # ... contains the Hestia card
-```
 
 <details>
 <summary>Show complete dashboard configuration</summary>
