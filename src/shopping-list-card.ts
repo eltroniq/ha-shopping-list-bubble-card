@@ -104,7 +104,7 @@ export class HaShoppingListBubbleCard extends LitElement {
 
   protected updated(changedProperties: PropertyValues<this>): void {
     // Home Assistant assigns hass after setConfig(); load the list as soon as both exist.
-    if (changedProperties.has('hass') || changedProperties.has('_config')) {
+    if (changedProperties.has('hass')) {
       void this._loadItems();
     }
   }
