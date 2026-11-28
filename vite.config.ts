@@ -5,7 +5,7 @@ export default defineConfig({
     lib: {
       entry: 'src/hestia-todo-entry-editor.ts',
       formats: ['es'],
-      fileName: () => 'hestia-todo-entry-editor.js',
+      fileName: () => 'ha-hestia-todo-entry-editor.js',
     },
     outDir: 'dist',
     emptyOutDir: true,
