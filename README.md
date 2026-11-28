@@ -141,7 +141,7 @@ A quantity of one `Stück` is omitted from the summary. Decimal quantities are s
 - **HACS does not show the repository:** Confirm that the repository URL is correct and that **Dashboard** is selected as its category.
 - **The popup does not close:** Disable `close_popup_on_success`. Popup navigation differs between dashboard and Bubble Card versions.
 
-If the problem persists, note that GitHub Issues are intentionally disabled for this personal project. The card is developed primarily for the maintainer's own setup and requirements.
+GitHub Issues are enabled, but this is a personal project rather than a supported product. Issues are provided without any promise of support, troubleshooting, response, fixes, or implementation of feature requests. Do not rely on this repository for assistance or time-sensitive fixes.
 
 ## Development
 
@@ -163,7 +163,7 @@ The production bundle is generated only during a release build. The release work
 
 ## Project scope and contributions
 
-This is a personal project, developed primarily for the maintainer's own Home Assistant setup and requirements. GitHub Issues are intentionally disabled; no public issue-based support or feature-request process is offered.
+This is a personal project, developed primarily for the maintainer's own Home Assistant setup and requirements. It is provided as-is, without support, warranties, service commitments, or a roadmap. GitHub Issues are enabled, but opening an issue does not create an expectation of a response, troubleshooting, a fix, or implementation of a feature request. Use the project at your own discretion.
 
-Pull requests are welcome, but acceptance is subject to review and the maintainer's discretion. A pull request may be declined if it does not fit the project's direction, personal requirements, or maintenance capacity. Please describe the proposed change and include testing steps where practical.
+Pull requests may be submitted, but there is no commitment to review, discuss, or merge them. Acceptance is entirely at the maintainer's discretion; changes may be declined for any reason, including project direction, personal requirements, or maintenance capacity.
 
