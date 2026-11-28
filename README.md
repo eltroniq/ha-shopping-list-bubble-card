@@ -32,7 +32,7 @@ A simple Home Assistant UI for adding and updating todo list entries, making it 
 2. Open the menu in the top-right corner and select **Custom repositories**.
 3. Add `https://github.com/eltroniq/ha-shopping-list-bubble-card`.
 4. Select **Dashboard** as the repository category and add the repository.
-5. Find **Hestia – Todo Entry Editor** in HACS and install it.
+5. Find **Hestia – Todo Entry Editor for Shopping Lists** in HACS and install it.
 6. Reload the browser. HACS normally registers the dashboard resource automatically.
 
 If you manage dashboard resources manually (for example, with YAML mode), add the resource path displayed by HACS as a **JavaScript module**. The exact URL can vary with the HACS installation method and Home Assistant version.
