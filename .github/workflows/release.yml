@@ -4,8 +4,6 @@ on:
   push:
     tags:
       - "v*"
-  release:
-    types: [published]
   workflow_dispatch:
     inputs:
       tag:
@@ -15,6 +13,13 @@ on:
 
 permissions:
   contents: write
+
+# A tag push used to start two runs: one for the tag and another when the
+# workflow itself published the release. Keep a single trigger and serialize
+# manual retries for the same tag.
+concurrency:
+  group: release-${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref }}
+  cancel-in-progress: false
 
 jobs:
   release:
@@ -29,8 +34,6 @@ jobs:
       - run: npm install
       - run: npm run check
       - run: npm run build
-      - name: Prepare release bundle
-        run: cp dist/hestia-todo-entry-editor.js hestia-todo-entry-editor.js
       - name: Publish or update GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
@@ -42,7 +45,7 @@ jobs:
           esac
 
           if gh release view "$TAG" >/dev/null 2>&1; then
-            gh release upload "$TAG" hestia-todo-entry-editor.js --clobber
+            gh release upload "$TAG" dist/hestia-todo-entry-editor.js dist/hestia-todo-entry-editor.js.map --clobber
           else
-            gh release create "$TAG" hestia-todo-entry-editor.js --title "$TAG" --generate-notes
+            gh release create "$TAG" dist/hestia-todo-entry-editor.js dist/hestia-todo-entry-editor.js.map --title "$TAG" --generate-notes
           fi
