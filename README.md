@@ -4,7 +4,6 @@
 
 [![CI](https://github.com/eltroniq/ha-shopping-list-bubble-card/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/eltroniq/ha-shopping-list-bubble-card/actions/workflows/ci.yml)
 [![Latest release](https://img.shields.io/github/v/release/eltroniq/ha-shopping-list-bubble-card?display_name=tag)](https://github.com/eltroniq/ha-shopping-list-bubble-card/releases)
-[![License](https://img.shields.io/github/license/eltroniq/ha-shopping-list-bubble-card)](LICENSE)
 
 A compact Home Assistant Lovelace card for managing a `todo` shopping list. It is designed to fit naturally inside a [Bubble Card](https://github.com/Clooos/Bubble-Card) popup, but it can also be used as a standalone dashboard card.
 
@@ -36,11 +35,7 @@ A compact Home Assistant Lovelace card for managing a `todo` shopping list. It i
 5. Find **Shopping List Bubble Card** in HACS and install it.
 6. Reload the browser. HACS normally registers the dashboard resource automatically.
 
-If you manage dashboard resources manually (for example, with YAML mode), add the resource path shown by HACS as a **JavaScript module**. The HACS-served path is typically:
-
-```text
-/hacsfiles/ha-shopping-list-bubble-card/shopping-list-card.js
-```
+If you manage dashboard resources manually (for example, with YAML mode), add the resource path displayed by HACS as a **JavaScript module**. The exact URL can vary with the HACS installation method and Home Assistant version.
 
 ### Manual installation
 
@@ -77,10 +72,11 @@ The visual editor lets you choose a todo entity and toggle popup closing. The en
 Place the card inside the popup's content. The popup itself is configured by Bubble Card; this card does not create or control the popup.
 
 ```yaml
-type: custom:bubble-card
-card_type: pop-up
-hash: "#shopping-list"
+type: vertical-stack
 cards:
+  - type: custom:bubble-card
+    card_type: pop-up
+    hash: "#shopping-list"
   - type: custom:ha-shopping-list-bubble-card
     entity: todo.einkaufsliste
     close_popup_on_success: true
@@ -132,6 +128,3 @@ The production bundle is generated at `dist/shopping-list-card.js`. GitHub Actio
 
 Bug reports and feature requests are welcome via [GitHub Issues](https://github.com/eltroniq/ha-shopping-list-bubble-card/issues). Contributions should include a clear description of the change and, where practical, steps to test it.
 
-## License
-
-See [LICENSE](LICENSE).
