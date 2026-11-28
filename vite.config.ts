@@ -5,7 +5,7 @@ export default defineConfig({
     lib: {
       entry: 'src/shopping-list-card.ts',
       formats: ['es'],
-      fileName: () => 'shopping-list-card.js',
+      fileName: () => 'hestia-todo-entry-editor.js',
     },
     outDir: 'dist',
     emptyOutDir: true,
