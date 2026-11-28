@@ -1,11 +1,11 @@
 > **AI disclosure:** AI tools assisted with parts of the implementation and documentation. The repository maintainer is responsible for reviewing and maintaining the project.
 
-# Shopping List Bubble Card
+# Hestia – Todo Entry Editor for Shopping Lists
 
-[![CI](https://github.com/eltroniq/ha-shopping-list-bubble-card/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/eltroniq/ha-shopping-list-bubble-card/actions/workflows/ci.yml)
-[![Latest release](https://img.shields.io/github/v/release/eltroniq/ha-shopping-list-bubble-card?display_name=tag)](https://github.com/eltroniq/ha-shopping-list-bubble-card/releases)
+[![CI](https://github.com/eltroniq/hestia-todo-entry-editor/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/eltroniq/hestia-todo-entry-editor/actions/workflows/ci.yml)
+[![Latest release](https://img.shields.io/github/v/release/eltroniq/hestia-todo-entry-editor?display_name=tag)](https://github.com/eltroniq/hestia-todo-entry-editor/releases)
 
-A compact Home Assistant Lovelace card for managing a `todo` shopping list. It is designed to fit naturally inside a [Bubble Card](https://github.com/Clooos/Bubble-Card) popup, but it can also be used as a standalone dashboard card.
+A simple Home Assistant UI for adding and updating todo list entries, making it easy to use any todo list as a shopping list. It fits naturally inside a [Bubble Card](https://github.com/Clooos/Bubble-Card) popup, but can also be used as a standalone dashboard card.
 
 ## Features
 
@@ -30,24 +30,24 @@ A compact Home Assistant Lovelace card for managing a `todo` shopping list. It i
 
 1. Open **HACS** in Home Assistant.
 2. Open the menu in the top-right corner and select **Custom repositories**.
-3. Add `https://github.com/eltroniq/ha-shopping-list-bubble-card`.
+3. Add `https://github.com/eltroniq/hestia-todo-entry-editor`.
 4. Select **Dashboard** as the repository category and add the repository.
-5. Find **Shopping List Bubble Card** in HACS and install it.
+5. Find **Hestia – Todo Entry Editor** in HACS and install it.
 6. Reload the browser. HACS normally registers the dashboard resource automatically.
 
 If you manage dashboard resources manually (for example, with YAML mode), add the resource path displayed by HACS as a **JavaScript module**. The exact URL can vary with the HACS installation method and Home Assistant version.
 
 ### Manual installation
 
-1. Download `shopping-list-card.js` from the [latest GitHub release](https://github.com/eltroniq/ha-shopping-list-bubble-card/releases).
+1. Download `hestia-todo-entry-editor.js` from the [latest GitHub release](https://github.com/eltroniq/hestia-todo-entry-editor/releases).
 2. Copy it into your Home Assistant `www` directory, for example:
 
    ```sh
    mkdir -p /config/www
-   cp shopping-list-card.js /config/www/shopping-list-card.js
+   cp hestia-todo-entry-editor.js /config/www/hestia-todo-entry-editor.js
    ```
 
-3. Open **Settings → Dashboards → Resources** and add `/local/shopping-list-card.js` with resource type **JavaScript module**.
+3. Open **Settings → Dashboards → Resources** and add `/local/hestia-todo-entry-editor.js` with resource type **JavaScript module**.
 4. Reload the browser.
 
 ## Configuration
@@ -59,7 +59,7 @@ The card can be added through the dashboard card picker or configured directly i
 This is the complete configuration for the custom card itself:
 
 ```yaml
-type: custom:ha-shopping-list-bubble-card
+type: custom:hestia-todo-entry-editor
 entity: todo.einkaufsliste
 close_popup_on_success: true
 ```
@@ -113,7 +113,7 @@ views:
             card_type: pop-up
             hash: '#einkaufsliste-add'
             cards:
-              - type: custom:ha-shopping-list-bubble-card
+              - type: custom:hestia-todo-entry-editor
                 entity: todo.einkaufsliste
                 close_popup_on_success: true
             show_header: false
@@ -159,7 +159,7 @@ For watch-mode builds:
 npm run dev
 ```
 
-The production bundle is generated at `dist/shopping-list-card.js`. GitHub Actions checks source changes and keeps the repository-root bundle up to date. Version tags (`v*`) build the card and attach `shopping-list-card.js` to the corresponding GitHub release. The release workflow can also be run manually to publish or repair the asset for an existing tag.
+The production bundle is generated at `dist/hestia-todo-entry-editor.js`. GitHub Actions checks source changes and keeps the repository-root bundle up to date. Version tags (`v*`) build the card and attach `hestia-todo-entry-editor.js` to the corresponding GitHub release. The release workflow can also be run manually to publish or repair the asset for an existing tag.
 
 ## Project scope and contributions
 
