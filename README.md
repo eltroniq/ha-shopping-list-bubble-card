@@ -104,7 +104,7 @@ A quantity of one `Stück` is omitted from the summary. Decimal quantities are s
 - **HACS does not show the repository:** Confirm that the repository URL is correct and that **Dashboard** is selected as its category.
 - **The popup does not close:** Disable `close_popup_on_success`. Popup navigation differs between dashboard and Bubble Card versions.
 
-If the problem persists, [open an issue](https://github.com/eltroniq/ha-shopping-list-bubble-card/issues) and include your Home Assistant version, browser console errors, and a concise reproduction description. Do not include tokens, credentials, or other sensitive information.
+If the problem persists, note that GitHub Issues are intentionally disabled for this personal project. The card is developed primarily for the maintainer's own setup and requirements.
 
 ## Development
 
@@ -124,7 +124,9 @@ npm run dev
 
 The production bundle is generated at `dist/shopping-list-card.js`. GitHub Actions checks source changes and keeps the repository-root bundle up to date. Version tags (`v*`) build the card and attach `shopping-list-card.js` to the corresponding GitHub release. The release workflow can also be run manually to publish or repair the asset for an existing tag.
 
-## Support and contributions
+## Project scope and contributions
 
-Bug reports and feature requests are welcome via [GitHub Issues](https://github.com/eltroniq/ha-shopping-list-bubble-card/issues). Contributions should include a clear description of the change and, where practical, steps to test it.
+This is a personal project, developed primarily for the maintainer's own Home Assistant setup and requirements. GitHub Issues are intentionally disabled; no public issue-based support or feature-request process is offered.
+
+Pull requests are welcome, but acceptance is subject to review and the maintainer's discretion. A pull request may be declined if it does not fit the project's direction, personal requirements, or maintenance capacity. Please describe the proposed change and include testing steps where practical.
 
