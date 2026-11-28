@@ -30,7 +30,7 @@ jobs:
       - run: npm run check
       - run: npm run build
       - name: Prepare release bundle
-        run: cp dist/shopping-list-card.js shopping-list-card.js
+        run: cp dist/hestia-todo-entry-editor.js hestia-todo-entry-editor.js
       - name: Publish or update GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
@@ -42,7 +42,7 @@ jobs:
           esac
 
           if gh release view "$TAG" >/dev/null 2>&1; then
-            gh release upload "$TAG" shopping-list-card.js --clobber
+            gh release upload "$TAG" hestia-todo-entry-editor.js --clobber
           else
-            gh release create "$TAG" shopping-list-card.js --title "$TAG" --generate-notes
+            gh release create "$TAG" hestia-todo-entry-editor.js --title "$TAG" --generate-notes
           fi
