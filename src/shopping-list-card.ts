@@ -19,11 +19,11 @@ const UNIT_SUFFIX: Record<Unit, string> = {
 };
 
 function normalizeText(value: string): string {
-  return value.normalize('NFD').replace(/[\\u0300-\\u036f]/g, '').toLocaleLowerCase().trim();
+  return value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase().trim();
 }
 
 function parseUnit(value: string): Unit | undefined {
-  const unit = normalizeText(value).replace(/[\\s._-]/g, '');
+  const unit = normalizeText(value).replace(/[\s._-]/g, '');
   if (unit === 'x' || unit.includes('stuck') || unit.includes('stk') || unit.includes('piece')) return 'Stück';
   if (unit === 'ml' || unit.includes('milliliter') || unit.includes('millilitre')) return 'mL';
   if (unit === 'l' || unit.includes('liter') || unit.includes('litre')) return 'L';
@@ -34,7 +34,7 @@ function parseUnit(value: string): Unit | undefined {
 
 function parseQuantityBlock(value: string): { count: number; unit: Unit } | undefined {
   // Read the numeric prefix separately; unit spelling and spacing are handled below.
-  const quantity = value.trim().match(/^(\\d+(?:[.,]\\d+)?)/);
+  const quantity = value.trim().match(/^(\d+(?:[.,]\d+)?)/);
   if (!quantity) return undefined;
 
   const count = Number(quantity[1].replace(',', '.'));
@@ -57,7 +57,7 @@ function parseSummary(summary: string): { name: string; count: number; unit: Uni
   }
 
   // Also accept common existing list entries such as "Milk 1 L" or "Potatoes 2.5kg".
-  const suffix = original.match(/^(.*\\S)\\s+(\\d+(?:[.,]\\d+)?)\\s*([^\\s]+)$/);
+  const suffix = original.match(/^(.*\S)\s+(\d+(?:[.,]\d+)?)\s*([^\s]+)$/);
   if (suffix) {
     const parsed = parseQuantityBlock(suffix[2] + suffix[3]);
     if (parsed) return { name: suffix[1].trim(), ...parsed };
