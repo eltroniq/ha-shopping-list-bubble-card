@@ -49,3 +49,28 @@ jobs:
           else
             gh release create "$TAG" dist/hestia-todo-entry-editor.js dist/hestia-todo-entry-editor.js.map --title "$TAG" --generate-notes
           fi
+
+      # HACS validates the default branch when a repository is added.
+      # Keep the latest release bundle in dist/, but only refresh it on releases.
+      - name: Update HACS bundle on the default branch
+        run: |
+          cp dist/hestia-todo-entry-editor.js "$RUNNER_TEMP/hestia-todo-entry-editor.js"
+          git fetch origin main
+          git checkout -B main origin/main
+          mkdir -p dist
+          cp "$RUNNER_TEMP/hestia-todo-entry-editor.js" dist/hestia-todo-entry-editor.js
+          git add -f dist/hestia-todo-entry-editor.js
+          if git diff --cached --quiet; then
+            echo "HACS bundle is already up to date."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "build: update HACS bundle for $TAG"
+            git push origin main
+          fi
+        env:
+          TAG: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}
+      - name: Validate published repository structure
+        uses: hacs/action@main
+        with:
+          category: plugin
