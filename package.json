@@ -1,6 +1,6 @@
 {
   "name": "ha-shopping-list-bubble-card",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "description": "A Home Assistant shopping-list card designed for Bubble Card popups.",
   "type": "module",
