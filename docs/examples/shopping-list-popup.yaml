@@ -1,0 +1,41 @@
+views:
+  - type: sections
+    sections:
+      - type: grid
+        cards:
+          - type: heading
+            icon: mdi:cart-heart
+            heading_style: title
+            heading: Einkaufsliste
+            badges:
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: todo.einkaufsliste
+                name:
+                  - type: device
+                  - type: entity
+          - type: custom:bubble-card
+            card_type: sub-buttons
+            sub_button:
+              bottom:
+                - name: Eintrag hinzufügen
+                  icon: mdi:plus
+                  tap_action:
+                    action: navigate
+                    navigation_path: '#einkaufsliste-add'
+                  show_name: true
+          - display_order: none
+            type: todo-list
+            entity: todo.einkaufsliste
+            hide_create: true
+            hide_section_headers: true
+            hide_completed: true
+          - type: custom:bubble-card
+            card_type: pop-up
+            hash: '#einkaufsliste-add'
+            cards:
+              - type: custom:hestia-todo-entry-editor
+                entity: todo.einkaufsliste
+                close_popup_on_success: true
+            show_header: false
