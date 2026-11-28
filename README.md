@@ -4,6 +4,7 @@
 
 [![CI](https://github.com/eltroniq/ha-hestia-todo-entry-editor/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/eltroniq/ha-hestia-todo-entry-editor/actions/workflows/ci.yml)
 [![Latest release](https://img.shields.io/github/v/release/eltroniq/ha-hestia-todo-entry-editor?display_name=tag)](https://github.com/eltroniq/ha-hestia-todo-entry-editor/releases)
+[![HACS validation](https://github.com/eltroniq/ha-hestia-todo-entry-editor/actions/workflows/validate-hacs.yml/badge.svg)](https://github.com/eltroniq/ha-hestia-todo-entry-editor/actions/workflows/validate-hacs.yml)
 
 A simple Home Assistant UI for adding and updating todo list entries, making it easy to use any todo list as a shopping list. It fits naturally inside a [Bubble Card](https://github.com/Clooos/Bubble-Card) popup, but can also be used as a standalone dashboard card.
 
@@ -26,14 +27,13 @@ A simple Home Assistant UI for adding and updating todo list entries, making it 
 
 ## Installation
 
-### Recommended: HACS
+### Recommended: HACS / Home Assistant Marketplace
 
-1. Open **HACS** in Home Assistant.
-2. Open the menu in the top-right corner and select **Custom repositories**.
-3. Add `https://github.com/eltroniq/ha-hestia-todo-entry-editor`.
-4. Select **Dashboard** as the repository category and add the repository.
-5. Find **Hestia – Todo Entry Editor for Shopping Lists** in HACS and install it.
-6. Reload the browser. HACS normally registers the dashboard resource automatically.
+**Home Assistant 2026.11 and newer:** Open **Settings → Marketplace**, choose **Add from link**, and enter `https://github.com/eltroniq/ha-hestia-todo-entry-editor`. Add it as a **Dashboard** repository, then install Hestia.
+
+**Home Assistant 2026.10 and older:** Open **HACS → ⋮ → Custom repositories**, add `https://github.com/eltroniq/ha-hestia-todo-entry-editor`, select **Dashboard**, and install **Hestia – Todo Entry Editor for Shopping Lists**.
+
+Hestia is distributed through GitHub Releases. The default branch is intentionally not offered as an installable version; install a published release. After installation, reload the browser. HACS normally registers the dashboard resource automatically.
 
 If you manage dashboard resources manually (for example, with YAML mode), add the resource path displayed by HACS as a **JavaScript module**. The exact URL can vary with the HACS installation method and Home Assistant version.
 
@@ -159,7 +159,7 @@ For watch-mode builds:
 npm run dev
 ```
 
-The production bundle is generated at `dist/hestia-todo-entry-editor.js`. GitHub Actions checks source changes and verifies that the card builds successfully. Version tags (`v*`) build the card and attach `hestia-todo-entry-editor.js` to the corresponding GitHub release. The release workflow can also be run manually to publish or repair the asset for an existing tag.
+The production bundle is generated in `dist/` only during a release build; generated files are not committed to the default branch. The regular CI workflow runs the TypeScript check, while the official `hacs/action` validates the repository as a Dashboard plugin on pushes, pull requests, and a daily schedule. Version tags (`v*`) build the card and attach `hestia-todo-entry-editor.js` and its source map to the corresponding GitHub release. The release workflow can also be run manually to publish or repair the assets for an existing tag. HACS installs the JavaScript file from the latest published release.
 
 ## Project scope and contributions
 
