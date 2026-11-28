@@ -74,7 +74,7 @@ function serializeSummary(name: string, count: number, unit: Unit): string {
   return `${product} (${quantity}${UNIT_SUFFIX[unit]})`;
 }
 
-@customElement('ha-shopping-list-bubble-card')
+@customElement('hestia-todo-entry-editor')
 export class HaShoppingListBubbleCard extends LitElement {
   @property({ attribute: false }) public hass?: any;
   @state() private _config?: CardConfig;
@@ -95,11 +95,11 @@ export class HaShoppingListBubbleCard extends LitElement {
   };
 
   public static getStubConfig(): CardConfig {
-    return { type: 'custom:ha-shopping-list-bubble-card', entity: 'todo.einkaufsliste' };
+    return { type: 'custom:hestia-todo-entry-editor', entity: 'todo.einkaufsliste' };
   }
 
   public setConfig(config: CardConfig): void {
-    if (!config.entity) throw new Error('Please configure a todo entity for the shopping list card.');
+    if (!config.entity) throw new Error('Please configure a todo entity for the todo entry editor.');
     this._config = { close_popup_on_success: false, ...config };
     void this._loadItems();
   }
@@ -372,7 +372,7 @@ export class HaShoppingListBubbleCard extends LitElement {
   `;
 }
 
-@customElement('ha-shopping-list-bubble-card-editor')
+@customElement('hestia-todo-entry-editor-editor')
 class HaShoppingListBubbleCardEditor extends LitElement {
   @property({ attribute: false }) public hass?: any;
   @state() private _config: Partial<CardConfig> = {};
@@ -417,11 +417,11 @@ declare global {
 }
 
 window.customCards = window.customCards || [];
-if (!window.customCards.some((card) => card.type === 'ha-shopping-list-bubble-card')) {
+if (!window.customCards.some((card) => card.type === 'hestia-todo-entry-editor')) {
   window.customCards.push({
-    type: 'ha-shopping-list-bubble-card',
-    name: 'Shopping list (Bubble Card popup)',
-    description: 'Shopping-list input card for a Home Assistant todo list.',
+    type: 'hestia-todo-entry-editor',
+    name: 'Hestia – Todo Entry Editor',
+    description: 'A simple Home Assistant UI for adding and updating todo list entries, making it easy to use any todo list as a shopping list.',
     preview: true,
   });
 }
