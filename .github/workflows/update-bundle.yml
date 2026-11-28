@@ -3,11 +3,18 @@ name: Update HACS bundle
 on:
   push:
     branches: [main]
-    paths-ignore:
-      - shopping-list-card.js
-      - dist/**
-      - .github/workflows/update-bundle.yml
+    paths:
+      - src/**
+      - package.json
+      - tsconfig.json
+      - vite.config.ts
   workflow_dispatch:
+
+# Serialize bundle updates so parallel source commits cannot race when pushing
+# the generated root bundle back to main.
+concurrency:
+  group: update-hacs-bundle-main
+  cancel-in-progress: false
 
 permissions:
   contents: write
