@@ -82,6 +82,7 @@ export class HaShoppingListBubbleCard extends LitElement {
   @state() private _name = '';
   @state() private _count = 1;
   @state() private _unit: Unit = 'Stück';
+  @state() private _unitOpen = false;
   @state() private _done = false;
   @state() private _focused = false;
   @state() private _selectedUid?: string;
@@ -89,6 +90,9 @@ export class HaShoppingListBubbleCard extends LitElement {
   @state() private _feedback = '';
   @state() private _feedbackError = false;
   private _refreshTimer?: number;
+  private _onDocumentPointerDown = (event: PointerEvent): void => {
+    if (!event.composedPath().includes(this)) this._unitOpen = false;
+  };
 
   public static getStubConfig(): CardConfig {
     return { type: 'custom:ha-shopping-list-bubble-card', entity: 'todo.einkaufsliste' };
@@ -111,11 +115,13 @@ export class HaShoppingListBubbleCard extends LitElement {
 
   public connectedCallback(): void {
     super.connectedCallback();
+    document.addEventListener('pointerdown', this._onDocumentPointerDown);
     this._refreshTimer = window.setInterval(() => void this._loadItems(), 30_000);
   }
 
   public disconnectedCallback(): void {
     super.disconnectedCallback();
+    document.removeEventListener('pointerdown', this._onDocumentPointerDown);
     if (this._refreshTimer !== undefined) window.clearInterval(this._refreshTimer);
   }
 
@@ -229,8 +235,8 @@ export class HaShoppingListBubbleCard extends LitElement {
 
   private _tryClosePopup(): void {
     if (!this._config?.close_popup_on_success) return;
-    // Bubble Card popups are URL-hash driven. Only step back when a popup hash is active.
-    if (window.location.hash.toLowerCase().includes('bubble')) window.history.back();
+    // Bubble Card closes the active popup when its URL hash is removed.
+    if (window.location.hash) window.location.hash = '';
   }
 
   private _onNameInput(event: Event): void {
@@ -276,10 +282,24 @@ export class HaShoppingListBubbleCard extends LitElement {
                 }} />
               <button class="step" aria-label="Menge erhöhen" @click=${() => this._changeCount(1)}>+</button>
             </div>
-            <select class="unit" aria-label="Einheit" .value=${this._unit}
-              @change=${(event: Event) => { this._unit = (event.currentTarget as HTMLSelectElement).value as Unit; }}>
-              ${UNITS.map((unit) => html`<option value=${unit}>${unit}</option>`)}
-            </select>
+            <div class="unit-wrap">
+              <button class="unit-trigger" type="button" aria-label="Einheit auswählen"
+                aria-haspopup="listbox" aria-expanded=${this._unitOpen}
+                @click=${() => { this._unitOpen = !this._unitOpen; }}
+                @keydown=${(event: KeyboardEvent) => { if (event.key === 'Escape') this._unitOpen = false; }}>
+                <span>${this._unit}</span><span class="unit-chevron" aria-hidden="true"></span>
+              </button>
+              ${this._unitOpen ? html`
+                <div class="unit-menu" role="listbox" aria-label="Einheit">
+                  ${UNITS.map((unit) => html`
+                    <button class="unit-option" type="button" role="option"
+                      aria-selected=${this._unit === unit}
+                      @click=${() => { this._unit = unit; this._unitOpen = false; }}>
+                      <span>${unit}</span>${this._unit === unit ? html`<span class="unit-check" aria-hidden="true">✓</span>` : nothing}
+                    </button>
+                  `)}
+                </div>` : nothing}
+            </div>
           </div>
 
           <label class="done-row">
@@ -313,13 +333,21 @@ export class HaShoppingListBubbleCard extends LitElement {
     .content { display: grid; gap: 14px; padding: 16px; }
     .search-wrap { position: relative; z-index: 1; }
     input, select, button { font: inherit; color: inherit; }
-    .product, .count, .unit {
+    .product, .count, .unit-trigger {
       box-sizing: border-box; min-height: 44px; border: 1px solid var(--divider-color);
       border-radius: var(--shopping-card-radius); background: var(--input-fill-color, var(--secondary-background-color));
       padding: 0 14px; outline: none;
     }
     .product { width: 100%; }
-    .product:focus, .count:focus, .unit:focus { border-color: var(--primary-color); }
+    .product:focus, .count:focus, .unit-trigger:focus-visible { border-color: var(--primary-color); }
+    .unit-wrap { position: relative; min-width: 0; z-index: 2; }
+    .unit-trigger { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 12px; cursor: pointer; text-align: left; }
+    .unit-chevron { width: 8px; height: 8px; flex: 0 0 auto; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: translateY(-2px) rotate(45deg); opacity: .7; }
+    .unit-menu { position: absolute; z-index: 10; top: calc(100% + 6px); left: 0; right: 0; box-sizing: border-box; overflow: hidden; padding: 4px 0; border: 1px solid var(--divider-color); border-radius: 14px; background: var(--card-background-color, var(--primary-background-color)); box-shadow: var(--ha-card-box-shadow, 0 4px 16px #0003); }
+    .unit-option { display: flex; box-sizing: border-box; width: 100%; min-height: 42px; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 14px; border: 0; border-radius: 0; background: transparent; text-align: left; cursor: pointer; }
+    .unit-option + .unit-option { border-top: 1px solid var(--divider-color); }
+    .unit-option:hover, .unit-option[aria-selected="true"] { background: var(--secondary-background-color); }
+    .unit-check { color: var(--primary-color); font-weight: 700; }
     .quantity-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(100px, 0.8fr); gap: 10px; }
     .stepper { display: grid; grid-template-columns: 44px minmax(40px, 1fr) 44px; align-items: center; border: 1px solid var(--divider-color); border-radius: var(--shopping-card-radius); overflow: hidden; background: var(--input-fill-color, var(--secondary-background-color)); }
     .count { width: 100%; min-width: 0; border: 0; border-radius: 0; text-align: center; padding: 0 4px; background: transparent; appearance: textfield; }
@@ -327,7 +355,6 @@ export class HaShoppingListBubbleCard extends LitElement {
     .step { height: 44px; border: 0; background: transparent; cursor: pointer; color: var(--primary-color); font-size: 22px; }
     .step:hover, .suggestion:hover { background: var(--secondary-background-color); }
     .step:disabled { opacity: .4; cursor: default; }
-    .unit { width: 100%; cursor: pointer; }
     .done-row { display: flex; align-items: center; gap: 10px; min-height: 32px; cursor: pointer; }
     .done-row input { width: 18px; height: 18px; accent-color: var(--primary-color); }
     .submit { min-height: 46px; border: 0; border-radius: var(--shopping-card-radius); background: var(--bubble-button-main-background-color, var(--primary-color)); color: var(--bubble-button-main-text-color, var(--text-primary-color, white)); font-weight: 600; cursor: pointer; }
