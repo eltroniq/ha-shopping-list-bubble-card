@@ -18,18 +18,52 @@ const UNIT_SUFFIX: Record<Unit, string> = {
   g: 'g',
 };
 
+function normalizeText(value: string): string {
+  return value.normalize('NFD').replace(/[\\u0300-\\u036f]/g, '').toLocaleLowerCase().trim();
+}
+
+function parseUnit(value: string): Unit | undefined {
+  const unit = normalizeText(value).replace(/[\\s._-]/g, '');
+  if (unit === 'x' || unit.includes('stuck') || unit.includes('stk') || unit.includes('piece')) return 'Stück';
+  if (unit === 'ml' || unit.includes('milliliter') || unit.includes('millilitre')) return 'mL';
+  if (unit === 'l' || unit.includes('liter') || unit.includes('litre')) return 'L';
+  if (unit === 'kg' || unit.includes('kilogram')) return 'kg';
+  if (unit === 'g' || unit.includes('gram')) return 'g';
+  return undefined;
+}
+
+function parseQuantityBlock(value: string): { count: number; unit: Unit } | undefined {
+  // Read the numeric prefix separately; unit spelling and spacing are handled below.
+  const quantity = value.trim().match(/^(\\d+(?:[.,]\\d+)?)/);
+  if (!quantity) return undefined;
+
+  const count = Number(quantity[1].replace(',', '.'));
+  const unit = parseUnit(value.slice(quantity[0].length));
+  if (!Number.isFinite(count) || count <= 0 || !unit) return undefined;
+  return { count, unit };
+}
+
 function parseSummary(summary: string): { name: string; count: number; unit: Unit } {
-  const match = summary.trim().match(/^(.*?)\s*\(\s*(\d+(?:[.,]\d+)?)\s*(x|Stück|L|mL|kg|g)\s*\)$/i);
-  if (!match) return { name: summary.trim(), count: 1, unit: 'Stück' };
-  const rawUnit = match[3].toLowerCase();
-  const unit: Unit = rawUnit === 'x' || rawUnit === 'stück' ? 'Stück'
-    : rawUnit === 'l' ? 'L' : rawUnit === 'ml' ? 'mL'
-      : rawUnit === 'kg' ? 'kg' : 'g';
-  return {
-    name: match[1].trim(),
-    count: Number(match[2].replace(',', '.')) || 1,
-    unit,
-  };
+  const original = summary.trim();
+  if (!original) return { name: '', count: 1, unit: 'Stück' };
+
+  // Preferred format emitted by the card: "Bread (2x)" or "Milk (1L)".
+  const openingParenthesis = original.lastIndexOf('(');
+  if (openingParenthesis > 0 && original.endsWith(')')) {
+    const parsed = parseQuantityBlock(original.slice(openingParenthesis + 1, -1));
+    if (parsed) {
+      return { name: original.slice(0, openingParenthesis).trim(), ...parsed };
+    }
+  }
+
+  // Also accept common existing list entries such as "Milk 1 L" or "Potatoes 2.5kg".
+  const suffix = original.match(/^(.*\\S)\\s+(\\d+(?:[.,]\\d+)?)\\s*([^\\s]+)$/);
+  if (suffix) {
+    const parsed = parseQuantityBlock(suffix[2] + suffix[3]);
+    if (parsed) return { name: suffix[1].trim(), ...parsed };
+  }
+
+  return { name: original, count: 1, unit: 'Stück' };
 }
 
 function serializeSummary(name: string, count: number, unit: Unit): string {
@@ -99,9 +133,13 @@ export class HaShoppingListBubbleCard extends LitElement {
   }
 
   private get _matches(): TodoItem[] {
-    const term = this._name.trim().toLocaleLowerCase();
+    const term = normalizeText(this._name);
     if (!term) return [];
-    return this._items.filter((item) => item.summary.toLocaleLowerCase().includes(term));
+    return this._items.filter((item) => {
+      const summary = String(item.summary ?? '');
+      const productName = parseSummary(summary).name;
+      return normalizeText(summary).includes(term) || normalizeText(productName).includes(term);
+    });
   }
 
   private _resetForm(): void {
