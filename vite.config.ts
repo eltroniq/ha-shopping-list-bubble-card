@@ -3,7 +3,7 @@ import { defineConfig } from 'vite';
 export default defineConfig({
   build: {
     lib: {
-      entry: 'src/shopping-list-card.ts',
+      entry: 'src/hestia-todo-entry-editor.ts',
       formats: ['es'],
       fileName: () => 'hestia-todo-entry-editor.js',
     },
