@@ -331,7 +331,8 @@ export class HaShoppingListBubbleCard extends LitElement {
       overflow: visible;
     }
     .content { display: grid; gap: 14px; padding: 16px; }
-    .search-wrap { position: relative; z-index: 1; }
+    /* Keep the autocomplete above the quantity controls and their dropdown. */
+    .search-wrap { position: relative; z-index: 3; }
     input, select, button { font: inherit; color: inherit; }
     .product, .count, .unit-trigger {
       box-sizing: border-box; min-height: 44px; border: 1px solid var(--divider-color);
@@ -340,10 +341,11 @@ export class HaShoppingListBubbleCard extends LitElement {
     }
     .product { width: 100%; }
     .product:focus, .count:focus, .unit-trigger:focus-visible { border-color: var(--primary-color); }
-    .unit-wrap { position: relative; min-width: 0; z-index: 2; }
+    .quantity-row { position: relative; z-index: 1; }
+    .unit-wrap { position: relative; min-width: 0; z-index: 1; }
     .unit-trigger { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 12px; cursor: pointer; text-align: left; }
     .unit-chevron { width: 8px; height: 8px; flex: 0 0 auto; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: translateY(-2px) rotate(45deg); opacity: .7; }
-    .unit-menu { position: absolute; z-index: 10; top: calc(100% + 6px); left: 0; right: 0; box-sizing: border-box; overflow: hidden; padding: 4px 0; border: 1px solid var(--divider-color); border-radius: 14px; background: var(--card-background-color, var(--primary-background-color)); box-shadow: var(--ha-card-box-shadow, 0 4px 16px #0003); }
+    .unit-menu { position: absolute; z-index: 2; top: calc(100% + 6px); left: 0; right: 0; box-sizing: border-box; overflow: hidden; padding: 4px 0; border: 1px solid var(--divider-color); border-radius: 14px; background: var(--card-background-color, var(--primary-background-color)); box-shadow: var(--ha-card-box-shadow, 0 4px 16px #0003); }
     .unit-option { display: flex; box-sizing: border-box; width: 100%; min-height: 42px; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 14px; border: 0; border-radius: 0; background: transparent; text-align: left; cursor: pointer; }
     .unit-option + .unit-option { border-top: 1px solid var(--divider-color); }
     .unit-option:hover, .unit-option[aria-selected="true"] { background: var(--secondary-background-color); }
