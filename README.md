@@ -52,37 +52,74 @@ If you manage dashboard resources manually (for example, with YAML mode), add th
 
 ## Configuration
 
-Add the card through the dashboard card picker, or use YAML:
+The card can be added through the dashboard card picker or configured directly in YAML.
+
+#### Card configuration
+
+This is the complete configuration for the custom card itself:
 
 ```yaml
 type: custom:ha-shopping-list-bubble-card
 entity: todo.einkaufsliste
-close_popup_on_success: false
+close_popup_on_success: true
 ```
 
 | Option | Type | Default | Description |
 | --- | --- | --- | --- |
 | `entity` | string | `todo.einkaufsliste` | Home Assistant todo entity to read and update. |
-| `close_popup_on_success` | boolean | `false` | Try to close the active Bubble Card popup after a successful save. |
+| `close_popup_on_success` | boolean | `false` | Close the active Bubble Card popup after a successful save. |
 
 The visual editor lets you choose a todo entity and toggle popup closing. The entity must exist and support the Home Assistant todo services used by the card.
 
-### Bubble Card popup example
+#### Complete dashboard example
 
-Place the card inside the popup's content. The popup itself is configured by Bubble Card; this card does not create or control the popup.
+The following example shows the card in context: a section heading with the todo entity as a badge, a Bubble Card sub-button to open the popup, the native Home Assistant todo list, and the popup containing this card.
 
 ```yaml
-type: vertical-stack
-cards:
-  - type: custom:bubble-card
-    card_type: pop-up
-    hash: "#shopping-list"
-  - type: custom:ha-shopping-list-bubble-card
-    entity: todo.einkaufsliste
-    close_popup_on_success: true
+views:
+  - type: sections
+    sections:
+      - type: grid
+        cards:
+          - type: heading
+            icon: mdi:cart-heart
+            heading_style: title
+            heading: Einkaufsliste
+            badges:
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: todo.einkaufsliste
+                name:
+                  - type: device
+                  - type: entity
+          - type: custom:bubble-card
+            card_type: sub-buttons
+            sub_button:
+              bottom:
+                - name: Eintrag hinzufügen
+                  icon: mdi:plus
+                  tap_action:
+                    action: navigate
+                    navigation_path: '#einkaufsliste-add'
+                  show_name: true
+          - display_order: none
+            type: todo-list
+            entity: todo.einkaufsliste
+            hide_create: true
+            hide_section_headers: true
+            hide_completed: true
+          - type: custom:bubble-card
+            card_type: pop-up
+            hash: '#einkaufsliste-add'
+            cards:
+              - type: custom:ha-shopping-list-bubble-card
+                entity: todo.einkaufsliste
+                close_popup_on_success: true
+            show_header: false
 ```
 
-Popup closing is best-effort and depends on the popup URL/hash behavior in your dashboard. If it does not close as expected, set `close_popup_on_success: false`; the card will still show save feedback.
+The `hash` on the Bubble Card popup must match the `navigation_path` used by the sub-button. Set `close_popup_on_success: true` on the shopping-list card to close the popup after a successful add or update.
 
 ## Quantity and todo summary format
 
