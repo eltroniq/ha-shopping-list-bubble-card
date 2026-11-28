@@ -39,15 +39,15 @@ If you manage dashboard resources manually (for example, with YAML mode), add th
 
 ### Manual installation
 
-1. Download `hestia-todo-entry-editor.js` from the [latest GitHub release](https://github.com/eltroniq/ha-hestia-todo-entry-editor/releases).
+1. Download `ha-hestia-todo-entry-editor.js` from the [latest GitHub release](https://github.com/eltroniq/ha-hestia-todo-entry-editor/releases).
 2. Copy it into your Home Assistant `www` directory, for example:
 
    ```sh
    mkdir -p /config/www
-   cp hestia-todo-entry-editor.js /config/www/hestia-todo-entry-editor.js
+   cp ha-hestia-todo-entry-editor.js /config/www/ha-hestia-todo-entry-editor.js
    ```
 
-3. Open **Settings → Dashboards → Resources** and add `/local/hestia-todo-entry-editor.js` with resource type **JavaScript module**.
+3. Open **Settings → Dashboards → Resources** and add `/local/ha-hestia-todo-entry-editor.js` with resource type **JavaScript module**.
 4. Reload the browser.
 
 ## Configuration
@@ -159,7 +159,7 @@ For watch-mode builds:
 npm run dev
 ```
 
-The production bundle is generated only during a release build. The release workflow attaches `hestia-todo-entry-editor.js` and its source map to the corresponding GitHub release, then mirrors the JavaScript bundle to `dist/` on the default branch. HACS requires a JavaScript file in the repository structure when the custom repository is first added; keeping the bundle in `dist/` satisfies that check while `hide_default_branch` keeps the branch unavailable as a user-selectable version. The regular CI workflow runs the TypeScript check, and the official `hacs/action` validates the repository as a Dashboard plugin on pushes, pull requests, and a daily schedule. The release workflow can also be run manually to publish or repair the assets for an existing tag.
+The production bundle is generated only during a release build. The release workflow attaches `ha-hestia-todo-entry-editor.js` and its source map to the corresponding GitHub release, then mirrors the JavaScript bundle to `dist/` on the default branch. HACS requires a JavaScript file in the repository structure when the custom repository is first added; keeping the bundle in `dist/` satisfies that check while `hide_default_branch` keeps the branch unavailable as a user-selectable version. The regular CI workflow runs the TypeScript check, and the official `hacs/action` validates the repository as a Dashboard plugin on pushes, pull requests, and a daily schedule. The release workflow can also be run manually to publish or repair the assets for an existing tag.
 
 ## Project scope and contributions
 
